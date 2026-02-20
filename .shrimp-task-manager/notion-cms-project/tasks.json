@@ -1,0 +1,422 @@
+{
+  "tasks": [
+    {
+      "id": "bf1daf80-adf0-4230-9a85-1b71691992e6",
+      "name": "[Phase 1] @notionhq/client 패키지 설치 및 환경변수 설정",
+      "description": "Notion API 연동에 필요한 패키지를 설치하고 환경변수를 구성한다.\n\n작업 내용:\n1. `npm install @notionhq/client` 실행\n2. 프로젝트 루트에 `.env.local` 파일 생성\n   - NOTION_API_KEY=your_notion_api_key\n   - NOTION_DATABASE_ID=your_database_id\n3. `.gitignore`에 `.env.local`이 포함되어 있는지 확인\n4. `next.config.ts`에 Notion 이미지 도메인 허용 설정 추가\n   - images.domains 또는 images.remotePatterns에 'www.notion.so', 'images.unsplash.com', 's3.us-west-2.amazonaws.com' 추가\n5. `src/app/dashboard/page.tsx`, `src/app/components/page.tsx` 삭제 (스타터 킷 전용 페이지)",
+      "notes": "Notion API 키는 https://www.notion.so/my-integrations 에서 발급. 데이터베이스 ID는 Notion 데이터베이스 URL에서 추출 (32자리 UUID).",
+      "status": "pending",
+      "dependencies": [],
+      "createdAt": "2026-02-20T04:16:08.368Z",
+      "updatedAt": "2026-02-20T04:16:08.368Z",
+      "relatedFiles": [
+        {
+          "path": "package.json",
+          "type": "TO_MODIFY",
+          "description": "@notionhq/client 의존성 추가"
+        },
+        {
+          "path": ".env.local",
+          "type": "CREATE",
+          "description": "Notion API 환경변수"
+        },
+        {
+          "path": "next.config.ts",
+          "type": "TO_MODIFY",
+          "description": "Notion 이미지 도메인 허용"
+        },
+        {
+          "path": "src/app/dashboard/page.tsx",
+          "type": "TO_MODIFY",
+          "description": "삭제 대상"
+        },
+        {
+          "path": "src/app/components/page.tsx",
+          "type": "TO_MODIFY",
+          "description": "삭제 대상"
+        }
+      ],
+      "implementationGuide": "npm install @notionhq/client 실행\n.env.local 파일 생성 (NOTION_API_KEY, NOTION_DATABASE_ID)\nnext.config.ts에 images.remotePatterns 설정 추가\n불필요한 스타터 킷 페이지 삭제",
+      "verificationCriteria": "- @notionhq/client가 package.json dependencies에 추가됨\n- .env.local에 NOTION_API_KEY, NOTION_DATABASE_ID 변수 존재\n- next.config.ts에 Notion 이미지 도메인 허용 설정 완료\n- npm run dev 실행 시 에러 없음",
+      "analysisResult": "ROADMAP.md 5단계 Phase 순서를 엄수하여 Notion CMS 개인 블로그를 개발한다. 현재 Next.js 스타터 킷 구조에서 출발하며, 각 Phase는 이전 Phase 완료 후 진행한다. TypeScript strict 모드, any 타입 금지, Notion API 서버 사이드 전용, 반응형 필수(375px/768px/1280px), shadcn/ui 우선 활용 원칙을 모든 태스크에 적용한다."
+    },
+    {
+      "id": "7a5102f9-6457-49e6-ae25-d5cc4a1ca384",
+      "name": "[Phase 2] 공통 타입 정의 (Post, Category, NotionBlock)",
+      "description": "프로젝트 전반에서 사용할 TypeScript 타입을 정의한다.\n\n작업 내용:\n1. `src/types/post.ts` 생성\n   - Post 인터페이스: id, title, category, tags, publishedAt, status\n   - Category 타입\n2. `src/types/notion.ts` 생성\n   - NotionBlock 타입 (Notion API 블록 응답 기반)\n   - 지원 블록 타입: paragraph, heading_1, heading_2, heading_3, code, image, quote, numbered_list_item, bulleted_list_item, divider\n3. any 타입 사용 절대 금지, @notionhq/client의 공식 타입 활용",
+      "status": "pending",
+      "dependencies": [
+        {
+          "taskId": "bf1daf80-adf0-4230-9a85-1b71691992e6"
+        }
+      ],
+      "createdAt": "2026-02-20T04:16:08.368Z",
+      "updatedAt": "2026-02-20T04:16:08.368Z",
+      "relatedFiles": [
+        {
+          "path": "src/types/post.ts",
+          "type": "CREATE",
+          "description": "Post, Category 타입"
+        },
+        {
+          "path": "src/types/notion.ts",
+          "type": "CREATE",
+          "description": "NotionBlock 타입"
+        }
+      ],
+      "implementationGuide": "src/types/ 디렉토리 생성\nsrc/types/post.ts: Post, Category 인터페이스 정의\nsrc/types/notion.ts: NotionBlock 타입 정의 (@notionhq/client BlockObjectResponse 타입 활용)\n모든 필드 명시적 타입 지정",
+      "verificationCriteria": "- src/types/post.ts, src/types/notion.ts 생성됨\n- any 타입 미사용\n- TypeScript strict 모드에서 컴파일 에러 없음\n- Post 타입에 id, title, category, tags, publishedAt 필드 포함",
+      "analysisResult": "ROADMAP.md 5단계 Phase 순서를 엄수하여 Notion CMS 개인 블로그를 개발한다. 현재 Next.js 스타터 킷 구조에서 출발하며, 각 Phase는 이전 Phase 완료 후 진행한다. TypeScript strict 모드, any 타입 금지, Notion API 서버 사이드 전용, 반응형 필수(375px/768px/1280px), shadcn/ui 우선 활용 원칙을 모든 태스크에 적용한다."
+    },
+    {
+      "id": "e6de0774-280f-4a90-b6e6-1178c065f419",
+      "name": "[Phase 2] Notion API 공통 함수 구현 (src/lib/notion.ts)",
+      "description": "Notion API와 통신하는 서버 사이드 전용 함수를 구현한다.\n\n작업 내용:\n1. `src/lib/notion.ts` 생성\n2. `fetchPages()` 함수: Status='발행됨'인 글 목록 조회, Published 내림차순 정렬, Post[] 반환\n3. `fetchPageContent(pageId: string)` 함수: 특정 페이지의 블록 콘텐츠 조회, NotionBlock[] 반환\n4. `fetchCategories()` 함수: 데이터베이스에서 카테고리 목록 동적 조회, Category[] 반환\n\n중요:\n- 파일 최상단에 'use server' 또는 서버 컴포넌트에서만 import하도록 주석 명시\n- process.env.NOTION_API_KEY, process.env.NOTION_DATABASE_ID 사용\n- NEXT_PUBLIC_ 접두사 절대 사용 금지\n- 반환 타입을 명시적으로 선언 (any 금지)",
+      "status": "pending",
+      "dependencies": [
+        {
+          "taskId": "7a5102f9-6457-49e6-ae25-d5cc4a1ca384"
+        }
+      ],
+      "createdAt": "2026-02-20T04:16:08.368Z",
+      "updatedAt": "2026-02-20T04:16:08.368Z",
+      "relatedFiles": [
+        {
+          "path": "src/lib/notion.ts",
+          "type": "CREATE",
+          "description": "Notion API 함수"
+        },
+        {
+          "path": "src/types/post.ts",
+          "type": "REFERENCE",
+          "description": "Post, Category 타입"
+        },
+        {
+          "path": "src/types/notion.ts",
+          "type": "REFERENCE",
+          "description": "NotionBlock 타입"
+        },
+        {
+          "path": ".env.local",
+          "type": "REFERENCE",
+          "description": "NOTION_API_KEY, NOTION_DATABASE_ID"
+        }
+      ],
+      "implementationGuide": "import { Client } from '@notionhq/client'\nconst notion = new Client({ auth: process.env.NOTION_API_KEY })\n\nfetchPages(): notion.databases.query()로 filter(Status='발행됨'), sorts(Published 내림차순) 적용 후 Post[] 변환\nfetchPageContent(pageId): notion.blocks.children.list()로 블록 조회 후 NotionBlock[] 변환\nfetchCategories(): notion.databases.retrieve()로 Category select 옵션 추출",
+      "verificationCriteria": "- fetchPages(), fetchPageContent(), fetchCategories() 함수 구현\n- NOTION_API_KEY 클라이언트 노출 없음\n- 반환 타입 명시 (any 미사용)\n- TypeScript 컴파일 에러 없음",
+      "analysisResult": "ROADMAP.md 5단계 Phase 순서를 엄수하여 Notion CMS 개인 블로그를 개발한다. 현재 Next.js 스타터 킷 구조에서 출발하며, 각 Phase는 이전 Phase 완료 후 진행한다. TypeScript strict 모드, any 타입 금지, Notion API 서버 사이드 전용, 반응형 필수(375px/768px/1280px), shadcn/ui 우선 활용 원칙을 모든 태스크에 적용한다."
+    },
+    {
+      "id": "2fb2b24f-20ee-4275-a314-a5623f99bf98",
+      "name": "[Phase 2] Header, Footer 블로그용으로 수정 및 레이아웃 메타데이터 업데이트",
+      "description": "스타터 킷의 Header/Footer를 블로그용으로 교체하고, 루트 레이아웃 메타데이터를 업데이트한다.\n\n작업 내용:\n1. `src/components/layout/Header.tsx` 수정\n   - 로고: 블로그 이름으로 변경\n   - navLinks: 홈(/)만 유지 (dashboard, components 제거)\n   - 다크모드 토글은 유지\n   - 모바일 햄버거 메뉴 유지\n2. `src/components/layout/Footer.tsx` 수정\n   - 블로그 소개 텍스트로 변경\n   - Notion CMS 기반 블로그임을 나타내는 내용\n3. `src/app/layout.tsx` 수정\n   - metadata.title: 블로그 이름으로 변경\n   - metadata.description: 블로그 설명으로 변경",
+      "status": "pending",
+      "dependencies": [
+        {
+          "taskId": "bf1daf80-adf0-4230-9a85-1b71691992e6"
+        }
+      ],
+      "createdAt": "2026-02-20T04:16:08.368Z",
+      "updatedAt": "2026-02-20T04:16:08.368Z",
+      "relatedFiles": [
+        {
+          "path": "src/components/layout/Header.tsx",
+          "type": "TO_MODIFY",
+          "description": "블로그 네비게이션으로 수정"
+        },
+        {
+          "path": "src/components/layout/Footer.tsx",
+          "type": "TO_MODIFY",
+          "description": "블로그 정보로 수정"
+        },
+        {
+          "path": "src/app/layout.tsx",
+          "type": "TO_MODIFY",
+          "description": "메타데이터 블로그용으로 수정"
+        }
+      ],
+      "implementationGuide": "Header.tsx: navLinks 배열을 [{href: '/', label: '홈'}]으로 수정, 로고 텍스트 변경\nFooter.tsx: 브랜드명, 설명 텍스트를 블로그용으로 교체\nlayout.tsx: metadata 객체의 title, description 수정",
+      "verificationCriteria": "- Header에 블로그 로고와 홈 링크만 존재\n- Footer에 블로그 관련 정보 표시\n- layout.tsx metadata가 블로그 이름/설명으로 업데이트됨\n- 반응형 동작 유지 (모바일 햄버거 메뉴)\n- npm run dev 시 화면 정상 출력",
+      "analysisResult": "ROADMAP.md 5단계 Phase 순서를 엄수하여 Notion CMS 개인 블로그를 개발한다. 현재 Next.js 스타터 킷 구조에서 출발하며, 각 Phase는 이전 Phase 완료 후 진행한다. TypeScript strict 모드, any 타입 금지, Notion API 서버 사이드 전용, 반응형 필수(375px/768px/1280px), shadcn/ui 우선 활용 원칙을 모든 태스크에 적용한다."
+    },
+    {
+      "id": "25ea3620-4785-4c73-a495-8eee60639680",
+      "name": "[Phase 3] PostCard 컴포넌트 및 글 목록 페이지 구현",
+      "description": "글 목록을 표시하는 PostCard 컴포넌트와 홈 페이지를 구현한다.\n\n작업 내용:\n1. `src/components/PostCard.tsx` 생성\n   - Props: post: Post\n   - 표시 정보: 제목, 카테고리, 태그(Badge), 발행일\n   - 클릭 시 /posts/[id]로 이동 (Next.js Link)\n   - shadcn/ui Card 컴포넌트 활용\n   - 반응형 레이아웃\n2. `src/app/page.tsx` 교체 (스타터 킷 내용 완전 제거)\n   - Server Component\n   - fetchPages() 호출로 글 목록 조회\n   - PostCard 컴포넌트로 목록 렌더링\n   - 발행일 기준 내림차순 정렬 확인\n   - ISR 적용: export const revalidate = 3600",
+      "status": "pending",
+      "dependencies": [
+        {
+          "taskId": "e6de0774-280f-4a90-b6e6-1178c065f419"
+        },
+        {
+          "taskId": "7a5102f9-6457-49e6-ae25-d5cc4a1ca384"
+        }
+      ],
+      "createdAt": "2026-02-20T04:16:08.368Z",
+      "updatedAt": "2026-02-20T04:16:08.368Z",
+      "relatedFiles": [
+        {
+          "path": "src/components/PostCard.tsx",
+          "type": "CREATE",
+          "description": "글 카드 컴포넌트"
+        },
+        {
+          "path": "src/app/page.tsx",
+          "type": "TO_MODIFY",
+          "description": "글 목록 홈 페이지"
+        },
+        {
+          "path": "src/types/post.ts",
+          "type": "REFERENCE",
+          "description": "Post 타입"
+        },
+        {
+          "path": "src/lib/notion.ts",
+          "type": "REFERENCE",
+          "description": "fetchPages 함수"
+        }
+      ],
+      "implementationGuide": "PostCard.tsx: shadcn/ui Card + Badge 사용, Link로 /posts/[id] 이동\npage.tsx: async Server Component, fetchPages() import, revalidate = 3600, grid 레이아웃으로 PostCard 렌더링",
+      "verificationCriteria": "- 홈(/)에서 발행된 글 목록이 렌더링됨\n- PostCard에 제목, 카테고리, 태그, 발행일 표시\n- revalidate = 3600 적용\n- 반응형 그리드 레이아웃 (1열→2열→3열)\n- any 타입 미사용",
+      "analysisResult": "ROADMAP.md 5단계 Phase 순서를 엄수하여 Notion CMS 개인 블로그를 개발한다. 현재 Next.js 스타터 킷 구조에서 출발하며, 각 Phase는 이전 Phase 완료 후 진행한다. TypeScript strict 모드, any 타입 금지, Notion API 서버 사이드 전용, 반응형 필수(375px/768px/1280px), shadcn/ui 우선 활용 원칙을 모든 태스크에 적용한다."
+    },
+    {
+      "id": "44fae496-f2b9-4e48-9d15-1e734030172f",
+      "name": "[Phase 3] Notion 블록 렌더러 구현 (NotionRenderer)",
+      "description": "Notion 페이지 블록을 HTML로 렌더링하는 컴포넌트를 구현한다.\n\n작업 내용:\n`src/components/NotionRenderer.tsx` 생성\n\n지원해야 할 블록 타입:\n- paragraph: <p> 태그, rich_text 배열 렌더링\n- heading_1: <h1>\n- heading_2: <h2>\n- heading_3: <h3>\n- code: <pre><code>, 언어 표시 (language 필드)\n- image: Next.js <Image> 컴포넌트, alt 속성 필수\n- quote: <blockquote>\n- numbered_list_item: <ol><li>\n- bulleted_list_item: <ul><li>\n- divider: <hr>\n\n중요:\n- Next.js Image 컴포넌트 사용 (next/image)\n- 이미지 alt 속성 필수\n- 코드 블록에 언어 표시\n- rich_text의 annotations (bold, italic, code, strikethrough) 처리",
+      "status": "pending",
+      "dependencies": [
+        {
+          "taskId": "7a5102f9-6457-49e6-ae25-d5cc4a1ca384"
+        }
+      ],
+      "createdAt": "2026-02-20T04:16:08.368Z",
+      "updatedAt": "2026-02-20T04:16:08.368Z",
+      "relatedFiles": [
+        {
+          "path": "src/components/NotionRenderer.tsx",
+          "type": "CREATE",
+          "description": "Notion 블록 렌더러"
+        },
+        {
+          "path": "src/types/notion.ts",
+          "type": "REFERENCE",
+          "description": "NotionBlock 타입"
+        }
+      ],
+      "implementationGuide": "NotionRenderer.tsx: Props { blocks: NotionBlock[] }\n각 블록 타입별 switch/case 또는 renderBlock 함수\nrich_text 배열을 span 태그로 변환, annotations 적용\n순서있는/없는 목록은 연속된 같은 타입 블록을 그룹핑",
+      "verificationCriteria": "- 8가지 블록 타입 모두 렌더링\n- Next.js Image 컴포넌트 사용, alt 필수\n- 코드 블록에 언어 정보 표시\n- rich_text annotations 처리 (bold, italic 등)\n- any 타입 미사용",
+      "analysisResult": "ROADMAP.md 5단계 Phase 순서를 엄수하여 Notion CMS 개인 블로그를 개발한다. 현재 Next.js 스타터 킷 구조에서 출발하며, 각 Phase는 이전 Phase 완료 후 진행한다. TypeScript strict 모드, any 타입 금지, Notion API 서버 사이드 전용, 반응형 필수(375px/768px/1280px), shadcn/ui 우선 활용 원칙을 모든 태스크에 적용한다."
+    },
+    {
+      "id": "f88b50db-0ca8-41a9-a057-e5354dd4f660",
+      "name": "[Phase 3] 글 상세 페이지 구현 (이전/다음 링크 포함)",
+      "description": "개별 글의 Notion 본문을 렌더링하는 상세 페이지를 구현한다.\n\n작업 내용:\n1. `src/app/posts/[id]/page.tsx` 생성\n   - async Server Component\n   - fetchPageContent(pageId) 호출\n   - 글 상단: 제목, 카테고리, 태그, 발행일 메타 정보\n   - NotionRenderer로 본문 렌더링\n   - ISR 적용: export const revalidate = 3600\n   - generateStaticParams()로 SSG 지원\n2. 이전/다음 글 이동 링크\n   - fetchPages()에서 전체 목록 가져와 현재 글 앞뒤 글 링크 표시\n3. 존재하지 않는 페이지: notFound() 처리",
+      "status": "pending",
+      "dependencies": [
+        {
+          "taskId": "44fae496-f2b9-4e48-9d15-1e734030172f"
+        },
+        {
+          "taskId": "25ea3620-4785-4c73-a495-8eee60639680"
+        }
+      ],
+      "createdAt": "2026-02-20T04:16:08.368Z",
+      "updatedAt": "2026-02-20T04:16:08.368Z",
+      "relatedFiles": [
+        {
+          "path": "src/app/posts/[id]/page.tsx",
+          "type": "CREATE",
+          "description": "글 상세 페이지"
+        },
+        {
+          "path": "src/components/NotionRenderer.tsx",
+          "type": "REFERENCE",
+          "description": "블록 렌더러"
+        },
+        {
+          "path": "src/lib/notion.ts",
+          "type": "REFERENCE",
+          "description": "fetchPageContent, fetchPages"
+        }
+      ],
+      "implementationGuide": "page.tsx: params.id로 fetchPageContent 호출, Post 메타 정보는 fetchPages()에서 찾거나 별도 함수 추가\ngenerateStaticParams: fetchPages()로 전체 id 목록 반환\n이전/다음: 전체 목록에서 현재 인덱스 기준으로 앞뒤 글 추출\nnotFound() import from 'next/navigation'",
+      "verificationCriteria": "- /posts/[id] 경로에서 글 본문 렌더링\n- 글 상단에 메타 정보(제목, 카테고리, 태그, 발행일) 표시\n- 이전/다음 글 링크 동작\n- 없는 페이지 접근 시 404 처리\n- revalidate = 3600, generateStaticParams 적용",
+      "analysisResult": "ROADMAP.md 5단계 Phase 순서를 엄수하여 Notion CMS 개인 블로그를 개발한다. 현재 Next.js 스타터 킷 구조에서 출발하며, 각 Phase는 이전 Phase 완료 후 진행한다. TypeScript strict 모드, any 타입 금지, Notion API 서버 사이드 전용, 반응형 필수(375px/768px/1280px), shadcn/ui 우선 활용 원칙을 모든 태스크에 적용한다."
+    },
+    {
+      "id": "1107c3d4-b42f-45c5-a7be-b07f8a76ed62",
+      "name": "[Phase 4] 카테고리 필터링 및 /category/[category] 페이지 구현",
+      "description": "카테고리별 글 필터링 UI와 카테고리 전용 페이지를 구현한다.\n\n작업 내용:\n1. `src/components/CategoryFilter.tsx` 생성 (Client Component)\n   - 카테고리 탭 UI (shadcn/ui 또는 Button 컴포넌트)\n   - '전체' 탭 포함\n   - 선택된 카테고리 상태 관리 (useState)\n   - 카테고리 선택 시 해당 글만 표시\n2. `src/app/page.tsx`에 CategoryFilter 통합\n   - fetchCategories()로 카테고리 목록 조회\n   - 클라이언트 사이드 필터링 적용\n3. `src/app/category/[category]/page.tsx` 생성\n   - 해당 카테고리의 글 목록 표시\n   - 카테고리 헤더 및 글 개수 표시\n   - generateStaticParams 적용",
+      "status": "pending",
+      "dependencies": [
+        {
+          "taskId": "25ea3620-4785-4c73-a495-8eee60639680"
+        },
+        {
+          "taskId": "e6de0774-280f-4a90-b6e6-1178c065f419"
+        }
+      ],
+      "createdAt": "2026-02-20T04:16:08.368Z",
+      "updatedAt": "2026-02-20T04:16:08.368Z",
+      "relatedFiles": [
+        {
+          "path": "src/components/CategoryFilter.tsx",
+          "type": "CREATE",
+          "description": "카테고리 필터 컴포넌트"
+        },
+        {
+          "path": "src/app/category/[category]/page.tsx",
+          "type": "CREATE",
+          "description": "카테고리 페이지"
+        },
+        {
+          "path": "src/app/page.tsx",
+          "type": "TO_MODIFY",
+          "description": "CategoryFilter 통합"
+        }
+      ],
+      "implementationGuide": "CategoryFilter.tsx: 'use client', props { categories: Category[], posts: Post[], onFilter?: Function } 또는 URL 쿼리 파라미터 방식 선택\n홈 페이지: 서버에서 posts + categories 가져와 클라이언트 컴포넌트에 전달\n카테고리 페이지: fetchPages() 후 category로 필터링",
+      "verificationCriteria": "- 카테고리 탭 클릭 시 해당 글만 표시\n- '전체' 탭 선택 시 모든 글 표시\n- /category/[category] 페이지 정상 동작\n- 카테고리 헤더와 글 개수 표시",
+      "analysisResult": "ROADMAP.md 5단계 Phase 순서를 엄수하여 Notion CMS 개인 블로그를 개발한다. 현재 Next.js 스타터 킷 구조에서 출발하며, 각 Phase는 이전 Phase 완료 후 진행한다. TypeScript strict 모드, any 타입 금지, Notion API 서버 사이드 전용, 반응형 필수(375px/768px/1280px), shadcn/ui 우선 활용 원칙을 모든 태스크에 적용한다."
+    },
+    {
+      "id": "93ce5179-c418-49db-874c-4fa5e7f3f257",
+      "name": "[Phase 4] 검색 기능 구현 (클라이언트 사이드 실시간 필터링)",
+      "description": "글 제목과 태그를 기준으로 실시간 검색 기능을 구현한다.\n\n작업 내용:\n1. `src/components/SearchBar.tsx` 생성 (Client Component)\n   - shadcn/ui Input 컴포넌트 사용\n   - 검색어 입력 시 실시간 필터링\n   - useDebounce 훅 활용 (src/hooks/useDebounce.ts 기존 파일 사용)\n   - 검색 대상: 글 제목 + 태그\n2. `src/app/page.tsx`에 SearchBar 통합\n   - CategoryFilter와 함께 동작\n   - 카테고리 필터 + 검색어가 동시에 적용되도록 처리",
+      "status": "pending",
+      "dependencies": [
+        {
+          "taskId": "1107c3d4-b42f-45c5-a7be-b07f8a76ed62"
+        }
+      ],
+      "createdAt": "2026-02-20T04:16:08.368Z",
+      "updatedAt": "2026-02-20T04:16:08.368Z",
+      "relatedFiles": [
+        {
+          "path": "src/components/SearchBar.tsx",
+          "type": "CREATE",
+          "description": "검색 입력 컴포넌트"
+        },
+        {
+          "path": "src/app/page.tsx",
+          "type": "TO_MODIFY",
+          "description": "SearchBar 통합"
+        },
+        {
+          "path": "src/hooks/useDebounce.ts",
+          "type": "REFERENCE",
+          "description": "기존 useDebounce 훅 활용"
+        }
+      ],
+      "implementationGuide": "'use client'\nuseDebounce(searchQuery, 300) 적용\nfilter: post.title.includes(query) || post.tags.some(tag => tag.includes(query))\n카테고리 필터와 AND 조건으로 결합",
+      "verificationCriteria": "- 검색어 입력 시 실시간으로 결과 필터링\n- 300ms 디바운스 적용\n- 제목과 태그 모두 검색 대상\n- 카테고리 필터와 동시 적용 가능",
+      "analysisResult": "ROADMAP.md 5단계 Phase 순서를 엄수하여 Notion CMS 개인 블로그를 개발한다. 현재 Next.js 스타터 킷 구조에서 출발하며, 각 Phase는 이전 Phase 완료 후 진행한다. TypeScript strict 모드, any 타입 금지, Notion API 서버 사이드 전용, 반응형 필수(375px/768px/1280px), shadcn/ui 우선 활용 원칙을 모든 태스크에 적용한다."
+    },
+    {
+      "id": "3d04477c-7b61-4ba9-8ae9-1c837d2c738a",
+      "name": "[Phase 4] SEO 메타태그 최적화",
+      "description": "각 페이지의 SEO 메타데이터와 Open Graph 태그를 설정한다.\n\n작업 내용:\n1. `src/app/page.tsx` - 홈 페이지 metadata export 추가\n2. `src/app/posts/[id]/page.tsx` - 글 상세 generateMetadata() 구현\n   - title: 글 제목\n   - description: 글 요약 (첫 번째 paragraph 블록)\n   - openGraph: title, description, type: 'article'\n3. `src/app/category/[category]/page.tsx` - 카테고리 페이지 metadata 추가\n4. 시맨틱 HTML 태그 확인: article, section, nav, header, footer, main 사용 확인",
+      "status": "pending",
+      "dependencies": [
+        {
+          "taskId": "f88b50db-0ca8-41a9-a057-e5354dd4f660"
+        },
+        {
+          "taskId": "1107c3d4-b42f-45c5-a7be-b07f8a76ed62"
+        }
+      ],
+      "createdAt": "2026-02-20T04:16:08.368Z",
+      "updatedAt": "2026-02-20T04:16:08.368Z",
+      "relatedFiles": [
+        {
+          "path": "src/app/page.tsx",
+          "type": "TO_MODIFY",
+          "description": "홈 메타데이터"
+        },
+        {
+          "path": "src/app/posts/[id]/page.tsx",
+          "type": "TO_MODIFY",
+          "description": "글 상세 generateMetadata"
+        },
+        {
+          "path": "src/app/category/[category]/page.tsx",
+          "type": "TO_MODIFY",
+          "description": "카테고리 메타데이터"
+        }
+      ],
+      "implementationGuide": "generateMetadata({ params }): 비동기 함수로 fetchPageContent로 첫 paragraph 추출하여 description 생성\nopenGraph 객체 구성\n시맨틱 태그 검토",
+      "verificationCriteria": "- 각 페이지 title, description 메타태그 설정\n- 글 상세 페이지 OG 태그 (og:title, og:description, og:type)\n- 시맨틱 HTML 태그 적용 확인",
+      "analysisResult": "ROADMAP.md 5단계 Phase 순서를 엄수하여 Notion CMS 개인 블로그를 개발한다. 현재 Next.js 스타터 킷 구조에서 출발하며, 각 Phase는 이전 Phase 완료 후 진행한다. TypeScript strict 모드, any 타입 금지, Notion API 서버 사이드 전용, 반응형 필수(375px/768px/1280px), shadcn/ui 우선 활용 원칙을 모든 태스크에 적용한다."
+    },
+    {
+      "id": "c01bebcf-0f8f-4d9a-813f-2bedec7a2224",
+      "name": "[Phase 5] 성능 최적화 및 반응형 최종 점검",
+      "description": "ISR 주기 최적화, Next.js Image 컴포넌트 적용, 반응형 레이아웃 최종 점검을 수행한다.\n\n작업 내용:\n1. ISR revalidate 주기 검토 및 조정\n   - 글 목록 페이지: revalidate = 3600 (1시간)\n   - 글 상세 페이지: revalidate = 3600\n2. NotionRenderer의 image 블록에 Next.js Image 컴포넌트 적용 확인\n   - width, height 또는 fill 속성 설정\n   - alt 속성 필수\n3. 반응형 레이아웃 최종 점검\n   - 모바일(375px): 1열 레이아웃, 가독성 확인\n   - 태블릿(768px): 2열 그리드\n   - 데스크탑(1280px): 3열 그리드\n4. 불필요한 리렌더링 점검 (Client Component 최소화)",
+      "status": "pending",
+      "dependencies": [
+        {
+          "taskId": "3d04477c-7b61-4ba9-8ae9-1c837d2c738a"
+        },
+        {
+          "taskId": "93ce5179-c418-49db-874c-4fa5e7f3f257"
+        }
+      ],
+      "createdAt": "2026-02-20T04:16:08.368Z",
+      "updatedAt": "2026-02-20T04:16:08.368Z",
+      "relatedFiles": [
+        {
+          "path": "src/components/NotionRenderer.tsx",
+          "type": "TO_MODIFY",
+          "description": "Image 컴포넌트 확인"
+        },
+        {
+          "path": "src/app/page.tsx",
+          "type": "TO_MODIFY",
+          "description": "반응형 레이아웃 점검"
+        },
+        {
+          "path": "next.config.ts",
+          "type": "REFERENCE",
+          "description": "이미지 도메인 설정"
+        }
+      ],
+      "implementationGuide": "각 page.tsx의 revalidate 값 확인\nNotionRenderer 이미지 블록 Next.js Image 적용\nTailwind 반응형 클래스 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 적용 확인",
+      "verificationCriteria": "- 모바일/태블릿/데스크탑 레이아웃 깨짐 없음\n- Next.js Image 컴포넌트 적용\n- revalidate 설정 모든 페이지에 적용\n- Notion API 키 클라이언트 미노출 확인",
+      "analysisResult": "ROADMAP.md 5단계 Phase 순서를 엄수하여 Notion CMS 개인 블로그를 개발한다. 현재 Next.js 스타터 킷 구조에서 출발하며, 각 Phase는 이전 Phase 완료 후 진행한다. TypeScript strict 모드, any 타입 금지, Notion API 서버 사이드 전용, 반응형 필수(375px/768px/1280px), shadcn/ui 우선 활용 원칙을 모든 태스크에 적용한다."
+    },
+    {
+      "id": "60ec1267-e799-4844-825a-1e368829878b",
+      "name": "[Phase 5] Vercel 배포 준비",
+      "description": "Vercel 배포를 위한 최종 환경 점검과 배포 가이드를 제공한다.\n\n작업 내용:\n1. `npm run build` 실행하여 빌드 에러 확인 및 수정\n2. TypeScript 타입 에러 전체 점검\n3. ESLint 경고/에러 점검\n4. Vercel 환경변수 설정 목록 확인\n   - NOTION_API_KEY\n   - NOTION_DATABASE_ID\n5. README.md 업데이트 (배포 방법, 환경변수 설정 방법)",
+      "status": "pending",
+      "dependencies": [
+        {
+          "taskId": "c01bebcf-0f8f-4d9a-813f-2bedec7a2224"
+        }
+      ],
+      "createdAt": "2026-02-20T04:16:08.368Z",
+      "updatedAt": "2026-02-20T04:16:08.368Z",
+      "relatedFiles": [
+        {
+          "path": "README.md",
+          "type": "TO_MODIFY",
+          "description": "배포 가이드"
+        },
+        {
+          "path": ".env.local",
+          "type": "REFERENCE",
+          "description": "환경변수 목록"
+        },
+        {
+          "path": "next.config.ts",
+          "type": "REFERENCE",
+          "description": "빌드 설정"
+        }
+      ],
+      "implementationGuide": "npm run build 실행 후 에러 수정\nnpm run lint 실행 후 경고 수정\nREADME.md에 환경변수 설정 가이드 추가",
+      "verificationCriteria": "- npm run build 에러 없음\n- npm run lint 에러 없음\n- README.md에 환경변수 설정 방법 문서화\n- Vercel 배포에 필요한 환경변수 목록 정리",
+      "analysisResult": "ROADMAP.md 5단계 Phase 순서를 엄수하여 Notion CMS 개인 블로그를 개발한다. 현재 Next.js 스타터 킷 구조에서 출발하며, 각 Phase는 이전 Phase 완료 후 진행한다. TypeScript strict 모드, any 타입 금지, Notion API 서버 사이드 전용, 반응형 필수(375px/768px/1280px), shadcn/ui 우선 활용 원칙을 모든 태스크에 적용한다."
+    }
+  ]
+}
