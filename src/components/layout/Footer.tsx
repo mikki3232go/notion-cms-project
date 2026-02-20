@@ -1,6 +1,17 @@
+// 블로그 푸터 컴포넌트 — 브랜드 정보, 페이지 링크, 기술 스택 표시
+
 import Link from "next/link";
-import { Zap } from "lucide-react";
+import { BookOpen } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
+
+// 푸터에 표시할 기술 스택 목록
+const techStack = [
+  "Next.js 15",
+  "Notion API",
+  "TypeScript",
+  "Tailwind CSS v4",
+  "shadcn/ui",
+];
 
 export function Footer() {
   return (
@@ -10,27 +21,24 @@ export function Footer() {
           {/* 브랜드 */}
           <div className="flex flex-col gap-3">
             <Link href="/" className="flex items-center gap-2 font-bold">
-              <Zap className="h-4 w-4 text-primary" />
-              <span>Next Starter</span>
+              <BookOpen className="h-4 w-4 text-primary" />
+              <span>Dev Blog</span>
             </Link>
             <p className="text-sm text-muted-foreground">
-              Next.js 15 + shadcn/ui로 만든 스타터 킷입니다.
-              빠르게 프로젝트를 시작하세요.
+              Notion을 CMS로 활용한 개인 기술 블로그입니다.
+              개발 경험과 학습 내용을 기록합니다.
             </p>
           </div>
 
-          {/* 링크 */}
+          {/* 페이지 링크 */}
           <div className="flex flex-col gap-3">
             <p className="text-sm font-semibold">페이지</p>
             <nav className="flex flex-col gap-2">
-              <Link href="/" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+              <Link
+                href="/"
+                className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+              >
                 홈
-              </Link>
-              <Link href="/dashboard" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                대시보드
-              </Link>
-              <Link href="/components" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                컴포넌트
               </Link>
             </nav>
           </div>
@@ -39,11 +47,9 @@ export function Footer() {
           <div className="flex flex-col gap-3">
             <p className="text-sm font-semibold">기술 스택</p>
             <ul className="flex flex-col gap-2 text-sm text-muted-foreground">
-              <li>Next.js 15</li>
-              <li>React 19</li>
-              <li>Tailwind CSS v4</li>
-              <li>shadcn/ui</li>
-              <li>TypeScript</li>
+              {techStack.map((tech) => (
+                <li key={tech}>{tech}</li>
+              ))}
             </ul>
           </div>
         </div>
@@ -51,7 +57,7 @@ export function Footer() {
         <Separator className="my-6" />
 
         <p className="text-center text-sm text-muted-foreground">
-          © {new Date().getFullYear()} Next Starter Kit. MIT License.
+          © {new Date().getFullYear()} Dev Blog. All rights reserved.
         </p>
       </div>
     </footer>

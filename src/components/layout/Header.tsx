@@ -1,17 +1,16 @@
 "use client";
 
+// 클라이언트 컴포넌트: 다크모드 토글(useTheme)과 모바일 메뉴(Sheet 상태)가 필요하므로 use client 선언
+
 import Link from "next/link";
 import { useTheme } from "next-themes";
-import { Moon, Sun, Menu, Zap } from "lucide-react";
+import { Moon, Sun, Menu, BookOpen } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Separator } from "@/components/ui/separator";
 
-const navLinks = [
-  { href: "/", label: "홈" },
-  { href: "/dashboard", label: "대시보드" },
-  { href: "/components", label: "컴포넌트" },
-];
+// 블로그 네비게이션 링크 목록 — 홈만 노출
+const navLinks = [{ href: "/", label: "홈" }];
 
 export function Header() {
   const { theme, setTheme } = useTheme();
@@ -21,8 +20,8 @@ export function Header() {
       <div className="container mx-auto flex h-14 items-center px-4">
         {/* 로고 */}
         <Link href="/" className="flex items-center gap-2 font-bold text-lg mr-6">
-          <Zap className="h-5 w-5 text-primary" />
-          <span>Next Starter</span>
+          <BookOpen className="h-5 w-5 text-primary" />
+          <span>Dev Blog</span>
         </Link>
 
         {/* 데스크탑 네비게이션 */}
@@ -50,7 +49,7 @@ export function Header() {
             <Moon className="absolute h-4 w-4 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
           </Button>
 
-          {/* 모바일 메뉴 */}
+          {/* 모바일 햄버거 메뉴 */}
           <Sheet>
             <SheetTrigger asChild>
               <Button variant="ghost" size="icon" className="md:hidden">

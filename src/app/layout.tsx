@@ -17,10 +17,10 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: "Next Starter Kit",
-    template: "%s | Next Starter Kit",
+    default: "Dev Blog",
+    template: "%s | Dev Blog",
   },
-  description: "Next.js 15 + shadcn/ui 스타터 킷 - 빠르게 프로젝트를 시작하세요.",
+  description: "Notion을 CMS로 활용한 개인 기술 블로그. 개발 경험과 학습 내용을 기록합니다.",
 };
 
 export default function RootLayout({
